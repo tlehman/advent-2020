@@ -89,3 +89,55 @@ fn valid_password_test() {
     assert_eq!(false, valid_password("1-3 b", "cdefg"));
     assert_eq!(true, valid_password("2-9 c", "ccccccccc"));
 }
+
+/* --- Part Two ---
+While it appears you validated the passwords correctly, they don't seem to be what the Official Toboggan Corporate Authentication System is expecting.
+
+The shopkeeper suddenly realizes that he just accidentally explained the password policy rules from his old job at the sled rental place down the street! The Official Toboggan Corporate Policy actually works a little differently.
+
+Each policy actually describes two positions in the password, where 1 means the first character, 2 means the second character, and so on. (Be careful; Toboggan Corporate Policies have no concept of "index zero"!) Exactly one of these positions must contain the given letter. Other occurrences of the letter are irrelevant for the purposes of policy enforcement.
+
+Given the same example list from above:
+
+1-3 a: abcde is valid: position 1 contains a and position 3 does not.
+1-3 b: cdefg is invalid: neither position 1 nor position 3 contains b.
+2-9 c: ccccccccc is invalid: both position 2 and position 9 contain c.
+How many passwords are valid according to the new interpretation of the policies? 
+
+*/
+
+impl Rule {
+    pub fn valid_part2(self: &Rule, password: &str) -> bool {
+        let n: usize = (self.min as usize) - 1;
+        let m: usize = (self.max as usize) - 1;
+        if let Some(c) = password.chars().nth(n) {
+            if c == self.letter {
+                if let Some(d) = password.chars().nth(m) {
+                    if d != self.letter {
+                        return true;
+                    }
+                }
+            } else {
+                if let Some(d) = password.chars().nth(m) {
+                    if d == self.letter {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+}
+
+pub fn valid_password_part2(raw_rule: &str, password: &str) -> bool {
+    let rule = Rule::parse(raw_rule);
+    return rule.valid_part2(password);
+}
+
+#[test]
+fn valid_password_part_2_test() {
+    assert_eq!(true, valid_password_part2("1-3 a", "abcde"));
+    assert_eq!(false, valid_password_part2("1-3 b", "cdefg"));
+    assert_eq!(false, valid_password_part2("2-9 c", "ccccccccc"));
+}

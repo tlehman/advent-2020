@@ -28,6 +28,7 @@ fn main() {
         // to decide if it's a rule or password
 
         let mut valid_passwords = 0;
+        let mut valid_passwords_part2 = 0;
         for line in lines {
             if let Ok(raw_line) = line {
                 let mut iter = raw_line.split(": ");
@@ -37,11 +38,15 @@ fn main() {
                         if rule.valid(password) {
                             valid_passwords += 1;
                         }
+                        if rule.valid_part2(password) {
+                            valid_passwords_part2 += 1;
+                        }
                     }
                 }
             }
         }
         println!("day02.txt has {} valid passwords", valid_passwords);
+        println!("day02.txt has {} valid passwords (part2)", valid_passwords_part2);
     }
 }
 
