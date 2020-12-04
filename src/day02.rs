@@ -32,3 +32,60 @@ the limits of their respective policies.
 
 How many passwords are valid according to their policies?
 */
+
+pub struct Rule {
+    min: u8,
+    max: u8,
+    letter: char
+}
+
+impl Rule {
+    pub fn parse(raw: &str) -> Rule {
+        let split_raw: Vec<&str> = raw.split(" ").collect();
+        // my use of unwrap() here is safe given the input in data/day02.txt
+        let range = split_raw.get(0).unwrap();
+        let letters = split_raw.get(1).unwrap();
+
+        let split_range: Vec<&str> = range.split("-").collect();
+        let min_str: &str = split_range.get(0).unwrap();
+        let max_str: &str = split_range.get(1).unwrap();
+        let min: u8 = min_str.parse().unwrap();
+        let max: u8 = max_str.parse().unwrap();
+        let letter: char = letters.chars().last().unwrap();
+        // data/day02.txt has the property that the this will always be Some(c)
+        return Rule { min, max, letter };
+    }
+    
+    pub fn valid(self: &Rule, password: &str) -> bool {
+        let mut letter_freq: u8 = 0;
+
+        for c in password.chars() {
+            if c == self.letter {
+                letter_freq += 1;
+            }
+        }
+
+        return letter_freq >= self.min && letter_freq <= self.max;
+    }
+}
+
+#[test]
+fn parse_rule_test() {
+    let rule = Rule::parse("2-3 t");
+    assert_eq!(2, rule.min);
+    assert_eq!(3, rule.max);
+    assert_eq!('t', rule.letter);
+}
+
+
+fn valid_password(raw_rule: &str, password: &str) -> bool {
+    let rule = Rule::parse(raw_rule);
+    return rule.valid(password);
+}
+
+#[test]
+fn valid_password_test() {
+    assert_eq!(true, valid_password("1-3 a", "abcde"));
+    assert_eq!(false, valid_password("1-3 b", "cdefg"));
+    assert_eq!(true, valid_password("2-9 c", "ccccccccc"));
+}
