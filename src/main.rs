@@ -1,5 +1,6 @@
 mod day01;
 mod day02;
+mod day03;
 use std::fs::File;
 use std::path::Path;
 use std::io;
@@ -48,5 +49,6 @@ fn main() {
         println!("day02.txt has {} valid passwords", valid_passwords);
         println!("day02.txt has {} valid passwords (part2)", valid_passwords_part2);
     }
+    // Day 3
 }
 
