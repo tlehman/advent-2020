@@ -27,7 +27,6 @@ fn main() {
         // each line is divided into two parts: rule and password
         // we maintain an integer and use the parity (even vs odd)
         // to decide if it's a rule or password
-
         let mut valid_passwords = 0;
         let mut valid_passwords_part2 = 0;
         for line in lines {
@@ -50,5 +49,15 @@ fn main() {
         println!("day02.txt has {} valid passwords (part2)", valid_passwords_part2);
     }
     // Day 3
+    let mut rows: Vec<String> = Vec::new();
+    if let Ok(lines) = read_lines("./data/day03.txt") {
+        for line in lines {
+            if let Ok(raw_line) = line {
+                rows.push(raw_line.clone());
+            }
+        }
+    }
+    let trees = day03::TobogganMap::new(rows).count_trees_while_sliding_down_hill((3, 1));
+    println!("day03.txt runs into {} trees", trees);
 }
 
