@@ -57,7 +57,16 @@ fn main() {
             }
         }
     }
-    let trees = day03::TobogganMap::new(rows).count_trees_while_sliding_down_hill((3, 1));
+    let toboggan_map = day03::TobogganMap::new(rows);
+    let trees = toboggan_map.count_trees_while_sliding_down_hill((3, 1));
     println!("day03.txt runs into {} trees", trees);
+    // part 2
+    let a: u16 = toboggan_map.count_trees_while_sliding_down_hill((1, 1)) as u16;
+    let b: u16 = toboggan_map.count_trees_while_sliding_down_hill((3, 1)) as u16;
+    let c: u16 = toboggan_map.count_trees_while_sliding_down_hill((5, 1)) as u16;
+    let d: u16 = toboggan_map.count_trees_while_sliding_down_hill((7, 1)) as u16;
+    let e: u16 = toboggan_map.count_trees_while_sliding_down_hill((1, 2)) as u16;
+    let day3_part2_answer: u128 = (a as u128) * (b as u128) * (c as u128) * (d as u128) * (e as u128);
+    println!("day 3 part 2 answer is {}", day3_part2_answer);
 }
 
